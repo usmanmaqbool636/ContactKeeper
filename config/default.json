@@ -1,0 +1,5 @@
+{
+    "devMongoURI":"mongodb://localhost:27017/githubfiner",
+    "MongoURI":"mongodb+srv://usman123:usman123@trackapp-4ljw2.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret":"somesecret7867838247343948734348732947384932"
+}
