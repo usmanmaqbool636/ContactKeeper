@@ -5,21 +5,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const config = require('config');
+const { auth } = require('../middlewares/auth');
 
-router.get('/', (req, res) => {
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await User.findById("5ebc2c1045a4b60d58836f54").select({ password: 0 });
+        return res.status(200).json(user);
+    }
+    catch (err) {
+        console.log(err.message);
+        return res.status(500).send("Server Error");
+    }
+
     res.send("get loged in user");
 })
 
 router.post('/', [
-    check("email").custom(value=>{
-        if(!value){
-            return Promise.reject("email is required");
-        }
-        if(check(value).isEmail())
-        {
-            return Promise.reject("please enter Valid Email");
-        }
-    }),
+    check("email","please enter valid email").isEmail(),
     // check('email').isEmail().withMessage("please enter valid email"),
     check("password", "password is required")
 ], async (req, res) => {
