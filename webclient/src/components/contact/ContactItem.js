@@ -3,7 +3,7 @@ import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ContactContext from '../context/contact/contactContext';
+import ContactContext from '../../context/contact/contactContext';
 const ContactItem = ({ contact }) => {
     const [loading, setLoading] = useState(false);
     const contactContext = useContext(ContactContext);
