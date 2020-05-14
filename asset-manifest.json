@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/ContactKeeper/static/css/main.5812e380.chunk.css",
-    "main.js": "/ContactKeeper/static/js/main.cb9ae912.chunk.js",
-    "main.js.map": "/ContactKeeper/static/js/main.cb9ae912.chunk.js.map",
-    "runtime-main.js": "/ContactKeeper/static/js/runtime-main.c501f860.js",
-    "runtime-main.js.map": "/ContactKeeper/static/js/runtime-main.c501f860.js.map",
-    "static/js/2.288cb857.chunk.js": "/ContactKeeper/static/js/2.288cb857.chunk.js",
-    "static/js/2.288cb857.chunk.js.map": "/ContactKeeper/static/js/2.288cb857.chunk.js.map",
-    "index.html": "/ContactKeeper/index.html",
-    "precache-manifest.16739150de38bc47d28626e21ce7782d.js": "/ContactKeeper/precache-manifest.16739150de38bc47d28626e21ce7782d.js",
-    "service-worker.js": "/ContactKeeper/service-worker.js",
-    "static/css/main.5812e380.chunk.css.map": "/ContactKeeper/static/css/main.5812e380.chunk.css.map",
-    "static/js/2.288cb857.chunk.js.LICENSE.txt": "/ContactKeeper/static/js/2.288cb857.chunk.js.LICENSE.txt"
+    "main.css": "/ContactKeeper.github.io/static/css/main.5812e380.chunk.css",
+    "main.js": "/ContactKeeper.github.io/static/js/main.5248e215.chunk.js",
+    "main.js.map": "/ContactKeeper.github.io/static/js/main.5248e215.chunk.js.map",
+    "runtime-main.js": "/ContactKeeper.github.io/static/js/runtime-main.27775be4.js",
+    "runtime-main.js.map": "/ContactKeeper.github.io/static/js/runtime-main.27775be4.js.map",
+    "static/js/2.288cb857.chunk.js": "/ContactKeeper.github.io/static/js/2.288cb857.chunk.js",
+    "static/js/2.288cb857.chunk.js.map": "/ContactKeeper.github.io/static/js/2.288cb857.chunk.js.map",
+    "index.html": "/ContactKeeper.github.io/index.html",
+    "precache-manifest.5b9c1d1db40edf7229ed9c103b3b563d.js": "/ContactKeeper.github.io/precache-manifest.5b9c1d1db40edf7229ed9c103b3b563d.js",
+    "service-worker.js": "/ContactKeeper.github.io/service-worker.js",
+    "static/css/main.5812e380.chunk.css.map": "/ContactKeeper.github.io/static/css/main.5812e380.chunk.css.map",
+    "static/js/2.288cb857.chunk.js.LICENSE.txt": "/ContactKeeper.github.io/static/js/2.288cb857.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c501f860.js",
+    "static/js/runtime-main.27775be4.js",
     "static/js/2.288cb857.chunk.js",
     "static/css/main.5812e380.chunk.css",
-    "static/js/main.cb9ae912.chunk.js"
+    "static/js/main.5248e215.chunk.js"
   ]
 }
