@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../context/contact/contactContext';
 const ContactForm = () => {
     const contactContext = useContext(ContactContext);
-    const { addContact, current, updateContact,clearCurrent } = contactContext;
+    const { addContact, current, updateContact, clearCurrent } = contactContext;
     const [contact, setContact] = useState({
         name: "",
         email: "",
@@ -11,7 +11,6 @@ const ContactForm = () => {
     });
     const { email, name, phone } = contact;
     useEffect(() => {
-        console.log("working")
         if (current) {
             setContact(current);
         } else {
@@ -33,6 +32,7 @@ const ContactForm = () => {
         e.preventDefault();
         if (current) {
             updateContact(contact)
+            clearCurrent()
         }
         else {
             addContact(contact);
@@ -53,7 +53,7 @@ const ContactForm = () => {
         })
         clearCurrent()
     }
-    const title = current ? "Update Contact" : "Add Contact";
+    const title = current !== null ? "Update Contact" : "Add Contact";
     return (
         <form onSubmit={submitHabdler}>
             <h2 className="text-primary">{title}</h2>
