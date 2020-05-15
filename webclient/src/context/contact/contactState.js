@@ -2,6 +2,7 @@ import React, { Reducer, useReducer } from 'react';
 import { v4 as uuid } from 'uuid';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
+import axios from '../../axios';
 import {
     ADD_CONTACT,
     CLEAR_FILTER,
@@ -11,75 +12,84 @@ import {
     SET_ALERT,
     SET_CURRENT,
     UPDATE_CONTACT,
-    CLEAR_CURRENT
+    CLEAR_CURRENT,
+    CONTACT_ERR,
+    GET_ALL_CONTACT,
+    CLEAR_CONTACTS,
+    LOADING
 } from '../types';
 
 const ContactState = (props) => {
     const initialState = {
-        contacts: [
-            {
-                "id": "3D5CE80C-B718-9864-E1BF-239286830592",
-                "name": "Rajah",
-                "email": "pulvinar@liberoProin.net",
-                "phone": "1-441-681-8372",
-                "type": 'personal'
-            },
-            {
-                "id": "E6C6CDE4-90D2-6F72-FF25-B86F01FBD93E",
-                "name": "Maxwell",
-                "email": "Phasellus.nulla@velquamdignissim.ca",
-                "phone": "1-188-313-1650",
-                "type": 'personal'
-            },
-            {
-                "id": "72B5DFF9-3450-79D4-3170-7B365D75E7BB",
-                "name": "Ivor",
-                "email": "Cum@elitelitfermentum.edu",
-                "phone": "1-880-332-8989",
-                "type": 'professional'
-            },
-            {
-                "id": "155D6C9E-322E-274B-4FA3-FB03A60424CE",
-                "name": "Ronan",
-                "email": "Vivamus@Sed.com",
-                "phone": "1-183-113-6232",
-                "type": 'professional'
-            }
-        ],
+        contacts: [],
+        loading: false,
         current: null,
-        filtered: null
+        filtered: null,
+        error: null,
+        token: localStorage.getItem("jwttoken")
+    }
+    const [state, dispatch] = useReducer(ContactReducer, initialState);
+    const { contacts, current, filtered, token } = state;
+    const config = {
+        headers: {
+            "x-auth-token": token
+        }
     }
 
-    const addContact = (contact) => {
-        contact.id = uuid();
-        dispatch({ type: ADD_CONTACT, payload: contact })
+    const addContact = async (contact) => {
+        try {
+            const res = await axios.post("/api/contact", contact, config)
+            dispatch({ type: ADD_CONTACT, payload: res.data })
+        }
+        catch (err) {
+            dispatch({ type: CONTACT_ERR, payload: err.responce.msg })
+        }
     }
-    const deleteContact = (id, done) => {
-        setTimeout(() => {
-            dispatch({ type: DELETE_CONTACT, payload: id });
+    const getAllContact = async (done) => {
+        try {
+            const res = await axios.get('/api/contact', config);
+            dispatch({ type: GET_ALL_CONTACT, payload: res.data });
             done();
-        }, 1000);
+        } catch (err) {
+            console.log(err.responce);
+            dispatch({ type: CONTACT_ERR, payload: err.responce })
+        }
     }
-    const updateContact = (contact) => dispatch({ type: UPDATE_CONTACT, payload: contact })
+    const deleteContact = async (id, done) => {
+        try {
+            await axios.delete(`/api/contact/${id}`, config);
+            dispatch({ type: DELETE_CONTACT, payload: id });
+            done()
+
+
+        } catch (err) {
+
+        }
+    }
+    const updateContact = async (contact) => {
+        const res = await axios.put("/api/contact", contact, config)
+        dispatch({ type: UPDATE_CONTACT, payload: contact })
+
+    }
     const setCurrent = (contact) => dispatch({ type: SET_CURRENT, payload: contact });
     const clearCurrent = () => dispatch({ type: CLEAR_CURRENT });
     const filterContact = (text) => dispatch({ type: FILTER_CONTACT, payload: text })
     const clearFilter = () => dispatch({ type: CLEAR_FILTER })
+    const setLoading = () => dispatch({ type: LOADING })
+    const clearContact = () => dispatch({ type: CLEAR_CONTACTS })
 
-    const [state, dispatch] = useReducer(ContactReducer, initialState);
-    const { contacts, current,filtered } = state;
     return (
         <ContactContext.Provider value={{
-            contacts,
-            current,
-            filtered,
+            ...state,
             addContact,
             deleteContact,
             setCurrent,
             clearCurrent,
             updateContact,
             filterContact,
-            clearFilter
+            clearFilter,
+            getAllContact,
+            clearContact
         }} >
             {props.children}
         </ContactContext.Provider>

@@ -1,18 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import AuthContext from '../../context/auth/authContext';
+import ContactContext from '../../context/contact/contactContext';
 
 const Navbar = ({ title, icon }) => {
     const authContext = useContext(AuthContext);
-    const { isAuthenticated, user, logout } = authContext;
-    const onLogout=()=>{
+    const contactContext = useContext(ContactContext);
+    const { isAuthenticated, user, logout,loadUser } = authContext;
+    const { clearContact} = contactContext;
+    useEffect(()=>{
+        loadUser();
+    },[])
+    const onLogout = () => {
+        clearContact();
         logout();
     }
     const authLink = (
         <>
+         <li>
+                <Link to="/">Home</Link>
+            </li>
             <li>
                 Hello {user && user.name}
             </li>

@@ -1,5 +1,5 @@
 {
-    "devMongoURI":"mongodb://localhost:27017/githubfiner",
+    "devMongoURI":"mongodb://localhost:27017/KeepContacts",
     "MongoURI":"mongodb+srv://usman123:usman123@trackapp-4ljw2.mongodb.net/test?retryWrites=true&w=majority",
     "jwtSecret":"somesecret7867838247343948734348732947384932"
 }

@@ -36,9 +36,9 @@ const AuthState = (props) => {
     }
     const logout=()=>dispatch({type:LOGOUT});
     const clearError = () => dispatch({ type: CLEAR_ERRORS })
-    const loadUser = async (token) => {
+    const loadUser = async () => {
         try {
-            const res = await axios.get("/api/auth", { headers: { "x-auth-token": token } })
+            const res = await axios.get("/api/auth", { headers: { "x-auth-token": state.token } })
             dispatch({ type: USER_LOAD, payload: res.data });
         } catch (err) {
             dispatch({ type: AUTH_ERROR });

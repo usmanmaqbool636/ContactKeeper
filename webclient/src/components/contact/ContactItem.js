@@ -7,12 +7,12 @@ import ContactContext from '../../context/contact/contactContext';
 const ContactItem = ({ contact }) => {
     const [loading, setLoading] = useState(false);
     const contactContext = useContext(ContactContext);
-    const { name, id, email, phone, type } = contact;
+    const { name, _id, email, phone, type } = contact;
     const { deleteContact, setCurrent, clearCurrent } = contactContext;
-    const deleteHandler = (id) => {
+    const deleteHandler = () => {
         setLoading(true)
-        deleteContact(id, () => {
-            setLoading(false)
+        deleteContact(_id, () => {
+                setLoading(false)
         });
         clearCurrent();
     }
@@ -21,7 +21,7 @@ const ContactItem = ({ contact }) => {
             <h3 className="text-primary text-left">
                 {name} {" "}
                 <span className={'badge ' + (type === "professional" ? "badge-success" : "badge-primary")}
-                    style={{ float: "right",textTransform:"capitalize" }}
+                    style={{ float: "right", textTransform: "capitalize" }}
                 >
                     {type}
                 </span>
@@ -41,7 +41,7 @@ const ContactItem = ({ contact }) => {
                 {loading ?
                     <button disabled className="btn btn-danger btn-sm">Deleting...</button>
                     :
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteHandler(id)}>Delete</button>
+                    <button className="btn btn-danger btn-sm" onClick={deleteHandler}>Delete</button>
 
                 }
 

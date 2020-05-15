@@ -8,8 +8,7 @@ const Home = (props) => {
     const { loadUser,isAuthenticated,user } = authContext;
     useEffect(() => {
         if (localStorage.jwttoken && user===null) {
-            console.log(user);
-            loadUser(localStorage.jwttoken);
+            // loadUser();
         }
         if(isAuthenticated){
             props.history.push("/");

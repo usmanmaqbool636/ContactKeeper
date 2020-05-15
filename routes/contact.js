@@ -19,9 +19,10 @@ router.get('/', async (req, res) => {
 
 
 router.post('/', [
-    check("name", "name is required").notEmpty(),
-    check("email","please enter valid email").isEmail(),
+    check("name", "name is required").not().isEmpty(),
+    check("email", "please enter valid email").isEmail(),
 ], async (req, res) => {
+    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json(errors);
@@ -31,7 +32,7 @@ router.post('/', [
         const newContact = new Contact({
             email, phone, type, name, user: req.user.id
         })
-        const contact= await newContact.save();
+        const contact = await newContact.save();
         return res.status(200).json(contact);
     }
     catch (err) {
@@ -41,12 +42,30 @@ router.post('/', [
 })
 
 
-router.put('/:id', (req, res) => {
-    res.send("update contact");
+router.put('/', async (req, res) => {
+    try {
+        await Contact.findByIdAndUpdate(req.body._id, req.body);
+        res.status(200).json({ msg: "contact Updated" });
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).json({
+            msg: "Internal server Error"
+        })
+    }
 })
 
-router.delete('/:id', (req, res) => {
-    res.send("delete contact");
+router.delete('/:id', async (req, res) => {
+    try {
+        await Contact.findByIdAndDelete(req.params.id)
+        res.status(200).json({ msg: "contact deleted", id: req.params.id });
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).json({
+            msg: "Internal server Error"
+        })
+    }
 })
 
 module.exports = router

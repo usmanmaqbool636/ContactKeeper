@@ -7,7 +7,11 @@ import {
     REMOVE_ALERT,
     SET_ALERT,
     SET_CURRENT,
-    UPDATE_CONTACT
+    UPDATE_CONTACT,
+    CONTACT_ERR,
+    GET_ALL_CONTACT,
+    CLEAR_CONTACTS,
+    LOADING
 } from '../types';
 
 
@@ -16,12 +20,19 @@ const contactReducer = (state, action) => {
         case ADD_CONTACT:
             return {
                 ...state,
-                contacts: [...state.contacts, action.payload]
+                contacts: [ action.payload,...state.contacts]
+            }
+        case GET_ALL_CONTACT:
+            return {
+                ...state,
+                loading: false,
+                contacts: action.payload
             }
         case DELETE_CONTACT:
             return {
                 ...state,
-                contacts: state.contacts.filter(c => c.id !== action.payload)
+                loading:false,
+                contacts: state.contacts.filter(c => c._id !== action.payload)
             }
         case SET_CURRENT:
             return {
@@ -37,7 +48,7 @@ const contactReducer = (state, action) => {
             return {
                 ...state,
                 contacts: state.contacts.map(c => {
-                    if (c.id === action.payload.id) {
+                    if (c._id === action.payload._id) {
                         return action.payload;
                     }
                     return c;
@@ -46,15 +57,36 @@ const contactReducer = (state, action) => {
         case FILTER_CONTACT:
             return {
                 ...state,
-                filtered: state.contacts.filter(c=>{
-                    const regex=new RegExp(`${action.payload}`,"gi");
+                filtered: state.contacts.filter(c => {
+                    const regex = new RegExp(`${action.payload}`, "gi");
                     return c.name.match(regex) || c.email.match(regex);
                 })
             }
         case CLEAR_FILTER:
             return {
                 ...state,
-                filtered: null
+                filtered: null,
+                loading:false
+            }
+        case CONTACT_ERR:
+            return {
+                ...state,
+                error: action.payload,
+                loading:false
+            }
+        case CLEAR_CONTACTS:
+            return {
+                ...state,
+                contacts: [],
+                current: null,
+                filtered: null,
+                error: null,
+                loading:false
+            }
+        case LOADING:
+            return {
+                ...state,
+                loading: true
             }
         default:
             return state;

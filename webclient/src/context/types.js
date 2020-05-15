@@ -6,9 +6,12 @@ export const CLEAR_CURRENT = "CLEAR_CURRENT";
 export const UPDATE_CONTACT = "UPDATE_CONTACT";
 export const FILTER_CONTACT = "FILTER_CONTACT";
 export const CLEAR_FILTER = "CLEAR_FILTER";
+export const CLEAR_CONTACTS = "CLEAR_CONTACTS";
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
-
+export const CONTACT_ERR = "CONTACT_ERR";
+export const GET_ALL_CONTACT="GET_ALL_CONTACT";
+export const LOADING="LOADING";
 // Auth
 
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
