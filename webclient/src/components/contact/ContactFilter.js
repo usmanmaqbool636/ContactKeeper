@@ -19,7 +19,7 @@ const ContactFilter = () => {
     }
     return (
         <form>
-            <input type="text" ref={text} onChange={changHandler} />
+            <input type="text" placeholder="Filter Contact" ref={text} onChange={changHandler} />
         </form>
     )
 }
