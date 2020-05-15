@@ -10,7 +10,8 @@ import AlertState from './context/alert/AlertState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alerts';
-function App() {
+import PrivateRoute from './components/routes/privateRoutes';
+const App = () => {
   return (
     <AuthState>
       <ContactState>
@@ -21,7 +22,7 @@ function App() {
               <div className="container">
                 <Alert />
                 <Switch>
-                  <Route exact path="/" component={Home} />
+                  <PrivateRoute exact path="/" component={Home} />
                   <Route exact path="/about" component={About} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />

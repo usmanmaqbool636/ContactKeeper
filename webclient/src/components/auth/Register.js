@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
 const Register = props => {
     const [user, setuser] = useState({
@@ -10,8 +11,24 @@ const Register = props => {
         password2: ""
     })
     const alertContext = useContext(AlertContext);
+    const authContext = useContext(AuthContext);
     const { setAlert } = alertContext;
+    const { register, error, clearError, isAuthenticated, loadUser } = authContext
     const { name, email, password, password2 } = user;
+    useEffect(() => {
+        if (error) {
+            setAlert(error, "danger");
+            clearError();
+        }
+        if (localStorage.jwttoken) {
+            console.log(user);
+            loadUser(localStorage.jwttoken);
+        }
+        if(isAuthenticated){
+            props.history.push("/");
+        }
+        // eslint-disable-next-line
+    }, [error, localStorage.jwttoken,isAuthenticated])
     const changeHandler = e => setuser({ ...user, [e.target.name]: e.target.value })
     const submitHandler = e => {
         e.preventDefault();
@@ -24,9 +41,8 @@ const Register = props => {
         else if (password !== password2) {
             setAlert("password not match", "danger")
         }
-
         else {
-
+            register({ email, name, password });
         }
     }
     return (

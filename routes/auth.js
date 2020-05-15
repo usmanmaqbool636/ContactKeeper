@@ -9,19 +9,16 @@ const { auth } = require('../middlewares/auth');
 
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await User.findById("5ebc2c1045a4b60d58836f54").select({ password: 0 });
+        const user = await User.findById(req.user.id).select({ password: 0 });
         return res.status(200).json(user);
     }
     catch (err) {
-        console.log(err.message);
         return res.status(500).send("Server Error");
     }
-
-    res.send("get loged in user");
 })
 
 router.post('/', [
-    check("email","please enter valid email").isEmail(),
+    check("email", "please enter valid email").isEmail(),
     // check('email').isEmail().withMessage("please enter valid email"),
     check("password", "password is required")
 ], async (req, res) => {
