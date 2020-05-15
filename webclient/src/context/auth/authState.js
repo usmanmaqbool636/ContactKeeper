@@ -8,8 +8,7 @@ const AuthState = (props) => {
         token: localStorage.getItem("jwttoken"),
         isAuthenticated: null,
         loading: true,
-        error:null,
-        
+        error:null,  
     }
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
