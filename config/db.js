@@ -24,10 +24,8 @@ const connectDB = async () => {
             useFindAndModify:false,
             useCreateIndex:true
         })
-        console.log(`mongoose connected to ${text}`)
     }
     catch (e) {
-        console.log(err.message);
         process.exit(1);
     }
 }

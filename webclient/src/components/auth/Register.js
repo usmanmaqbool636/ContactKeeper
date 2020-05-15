@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react'
-import PropTypes from 'prop-types';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 
@@ -21,7 +20,6 @@ const Register = props => {
             clearError();
         }
         if (localStorage.jwttoken) {
-            console.log(user);
             loadUser(localStorage.jwttoken);
         }
         if(isAuthenticated){
@@ -44,6 +42,9 @@ const Register = props => {
         else {
             register({ email, name, password });
         }
+    }
+    if(!isAuthenticated){
+        return null
     }
     return (
         <div className="form-container">

@@ -1,5 +1,4 @@
-import React, { Reducer, useReducer } from 'react';
-import { v4 as uuid } from 'uuid';
+import React, { useReducer } from 'react';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
 import axios from '../../axios';
@@ -8,15 +7,12 @@ import {
     CLEAR_FILTER,
     DELETE_CONTACT,
     FILTER_CONTACT,
-    REMOVE_ALERT,
-    SET_ALERT,
     SET_CURRENT,
     UPDATE_CONTACT,
     CLEAR_CURRENT,
     CONTACT_ERR,
     GET_ALL_CONTACT,
-    CLEAR_CONTACTS,
-    LOADING
+    CLEAR_CONTACTS
 } from '../types';
 
 const ContactState = (props) => {
@@ -29,7 +25,7 @@ const ContactState = (props) => {
         token: localStorage.getItem("jwttoken")
     }
     const [state, dispatch] = useReducer(ContactReducer, initialState);
-    const { contacts, current, filtered, token } = state;
+    const { token } = state;
     const config = {
         headers: {
             "x-auth-token": token
@@ -45,13 +41,16 @@ const ContactState = (props) => {
             dispatch({ type: CONTACT_ERR, payload: err.responce.msg })
         }
     }
-    const getAllContact = async (done) => {
+    const getAllContact = async (token, done) => {
         try {
-            const res = await axios.get('/api/contact', config);
+            const res = await axios.get('/api/contact', {
+                headers: {
+                    "x-auth-token": token
+                }
+            });
             dispatch({ type: GET_ALL_CONTACT, payload: res.data });
             done();
         } catch (err) {
-            console.log(err.responce);
             dispatch({ type: CONTACT_ERR, payload: err.responce })
         }
     }
@@ -67,16 +66,15 @@ const ContactState = (props) => {
         }
     }
     const updateContact = async (contact) => {
-        const res = await axios.put("/api/contact", contact, config)
-        dispatch({ type: UPDATE_CONTACT, payload: contact })
+        await axios.put("/api/contact", contact, config)
+        dispatch({ type: UPDATE_CONTACT, payload: contact });
 
     }
     const setCurrent = (contact) => dispatch({ type: SET_CURRENT, payload: contact });
     const clearCurrent = () => dispatch({ type: CLEAR_CURRENT });
-    const filterContact = (text) => dispatch({ type: FILTER_CONTACT, payload: text })
-    const clearFilter = () => dispatch({ type: CLEAR_FILTER })
-    const setLoading = () => dispatch({ type: LOADING })
-    const clearContact = () => dispatch({ type: CLEAR_CONTACTS })
+    const filterContact = (text) => dispatch({ type: FILTER_CONTACT, payload: text });
+    const clearFilter = () => dispatch({ type: CLEAR_FILTER });
+    const clearContact = () => dispatch({ type: CLEAR_CONTACTS });
 
     return (
         <ContactContext.Provider value={{

@@ -5,11 +5,8 @@ import ContactFilter from '../contact/ContactFilter';
 import AuthContext from '../../context/auth/authContext';
 const Home = (props) => {
     const authContext = useContext(AuthContext)
-    const { loadUser,isAuthenticated,user } = authContext;
+    const { isAuthenticated } = authContext;
     useEffect(() => {
-        if (localStorage.jwttoken && user===null) {
-            // loadUser();
-        }
         if(isAuthenticated){
             props.history.push("/");
         }

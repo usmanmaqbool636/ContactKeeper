@@ -4,14 +4,11 @@ import {
     CLEAR_FILTER,
     DELETE_CONTACT,
     FILTER_CONTACT,
-    REMOVE_ALERT,
-    SET_ALERT,
     SET_CURRENT,
     UPDATE_CONTACT,
     CONTACT_ERR,
     GET_ALL_CONTACT,
-    CLEAR_CONTACTS,
-    LOADING
+    CLEAR_CONTACTS
 } from '../types';
 
 
@@ -82,11 +79,6 @@ const contactReducer = (state, action) => {
                 filtered: null,
                 error: null,
                 loading:false
-            }
-        case LOADING:
-            return {
-                ...state,
-                loading: true
             }
         default:
             return state;

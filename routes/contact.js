@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
         return res.status(200).json(contact);
     }
     catch (err) {
-        console.log(err.message);
         return res.status(500).send("Server Error");
     }
 })
@@ -22,7 +21,6 @@ router.post('/', [
     check("name", "name is required").not().isEmpty(),
     check("email", "please enter valid email").isEmail(),
 ], async (req, res) => {
-    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json(errors);
@@ -36,7 +34,6 @@ router.post('/', [
         return res.status(200).json(contact);
     }
     catch (err) {
-        console.log(err.message);
         return res.status(500).send("Server Error");
     }
 })
@@ -48,7 +45,6 @@ router.put('/', async (req, res) => {
         res.status(200).json({ msg: "contact Updated" });
     }
     catch (err) {
-        console.log(err.message)
         res.status(500).json({
             msg: "Internal server Error"
         })
@@ -61,7 +57,6 @@ router.delete('/:id', async (req, res) => {
         res.status(200).json({ msg: "contact deleted", id: req.params.id });
     }
     catch (err) {
-        console.log(err.message)
         res.status(500).json({
             msg: "Internal server Error"
         })

@@ -14,10 +14,14 @@ const Contact = () => {
 
     useEffect(() => {
         setLoading(true);
-        getAllContact(() => {
-            setLoading(false)
-        });
-    }, [])
+        if(localStorage.jwttoken){
+            console.log("working")
+            getAllContact(localStorage.jwttoken,() => {
+                setLoading(false)
+            });
+        }
+        // eslint-disable-next-line
+    }, [localStorage.jwttoken])
     if (loading) {
         return <Spinner />
     }

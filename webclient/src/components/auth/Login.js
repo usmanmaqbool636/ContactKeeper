@@ -1,5 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useContext } from 'react'
 
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
@@ -11,7 +10,7 @@ const Login = props => {
     const [user, setuser] = useState({
         email: "",
         password: "",
-    })
+    });
     const { setAlert } = alertContext;
     const { login, error, clearError, isAuthenticated, loadUser } = authContext
     useEffect(() => {
@@ -20,7 +19,6 @@ const Login = props => {
             clearError();
         }
         if (localStorage.jwttoken) {
-            console.log(user);
             loadUser(localStorage.jwttoken);
         }
         if (isAuthenticated) {
@@ -32,12 +30,15 @@ const Login = props => {
     const changeHandler = e => setuser({ ...user, [e.target.name]: e.target.value })
     const submitHandler = e => {
         e.preventDefault();
-        if(!email || !password){
-            setAlert("please fill all fields","danger")
+        if (!email || !password) {
+            setAlert("please fill all fields", "danger")
         }
-        else{
-            login({email,password})
+        else {
+            login({ email, password })
         }
+    }
+    if(!isAuthenticated){
+        return null
     }
     return (
         <div className="form-container">
