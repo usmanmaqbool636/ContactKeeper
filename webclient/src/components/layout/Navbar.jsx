@@ -13,7 +13,7 @@ const Navbar = ({ title, icon }) => {
     const { clearContact } = contactContext;
     useEffect(() => {
         if (localStorage.jwttoken) {
-            loadUser();
+            loadUser(localStorage.jwttoken);
         }
         // eslint-disable-next-line
     }, [localStorage.jwttoken])

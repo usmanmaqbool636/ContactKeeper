@@ -34,11 +34,11 @@ const AuthState = (props) => {
 
         }
     }
-    const logout=()=>dispatch({type:LOGOUT});
+    const logout = () => dispatch({ type: LOGOUT });
     const clearError = () => dispatch({ type: CLEAR_ERRORS })
-    const loadUser = async () => {
+    const loadUser = async (token) => {
         try {
-            const res = await axios.get("/api/auth", { headers: { "x-auth-token": state.token } })
+            const res = await axios.get("/api/auth", { headers: { "x-auth-token": token } })
             dispatch({ type: USER_LOAD, payload: res.data });
         } catch (err) {
             dispatch({ type: AUTH_ERROR });

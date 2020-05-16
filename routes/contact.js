@@ -34,6 +34,7 @@ router.post('/', [
         return res.status(200).json(contact);
     }
     catch (err) {
+        console.log(err.message)
         return res.status(500).send("Server Error");
     }
 })

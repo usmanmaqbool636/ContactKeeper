@@ -11,10 +11,13 @@ const ContactItem = ({ contact }) => {
     const { deleteContact, setCurrent, clearCurrent } = contactContext;
     const deleteHandler = () => {
         setLoading(true)
-        deleteContact(_id, () => {
+        if(localStorage.jwttoken){
+
+            deleteContact(_id,localStorage.jwttoken ,() => {
                 setLoading(false)
-        });
-        clearCurrent();
+            });
+            clearCurrent();
+        }
     }
     return (
         <div  className="card bg-light">

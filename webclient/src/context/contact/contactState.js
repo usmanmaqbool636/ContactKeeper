@@ -32,13 +32,17 @@ const ContactState = (props) => {
         }
     }
 
-    const addContact = async (contact) => {
+    const addContact = async (contact, token) => {
         try {
-            const res = await axios.post("/api/contact", contact, config)
+            const res = await axios.post("/api/contact", contact, {
+                headers: {
+                    "x-auth-token": token
+                }
+            })
             dispatch({ type: ADD_CONTACT, payload: res.data })
         }
         catch (err) {
-            dispatch({ type: CONTACT_ERR, payload: err.responce.msg })
+            dispatch({ type: CONTACT_ERR, payload: err.responce })
         }
     }
     const getAllContact = async (token, done) => {
@@ -54,9 +58,11 @@ const ContactState = (props) => {
             dispatch({ type: CONTACT_ERR, payload: err.responce })
         }
     }
-    const deleteContact = async (id, done) => {
+    const deleteContact = async (id, token, done) => {
         try {
-            await axios.delete(`/api/contact/${id}`, config);
+            await axios.delete(`/api/contact/${id}`, {headers:{
+                "x-auth-token":token
+            }});
             dispatch({ type: DELETE_CONTACT, payload: id });
             done()
 
@@ -65,8 +71,10 @@ const ContactState = (props) => {
 
         }
     }
-    const updateContact = async (contact) => {
-        await axios.put("/api/contact", contact, config)
+    const updateContact = async (contact,token) => {
+        await axios.put("/api/contact", contact, {headers:{
+            "x-auth-token":token
+        }})
         dispatch({ type: UPDATE_CONTACT, payload: contact });
 
     }

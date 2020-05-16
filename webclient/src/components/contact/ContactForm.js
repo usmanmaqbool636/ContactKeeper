@@ -34,23 +34,29 @@ const ContactForm = () => {
     }
     const submitHabdler = (e) => {
         e.preventDefault();
-        if (!name || !email || !phone) {
-            setAlert("please fill all fields","danger")
-            return 
+        if (localStorage.jwttoken) {
+
+            if (!name || !email || !phone) {
+                setAlert("please fill all fields", "danger")
+                return
+            }
+            if (current) {
+                if(localStorage.jwttoken){
+
+                    updateContact(contact,localStorage.jwttoken)
+                    clearCurrent()
+                }
+            }
+            else {
+                addContact(contact,localStorage.jwttoken);
+            }
+            setContact({
+                name: "",
+                email: "",
+                phone: "",
+                type: "personal"
+            })
         }
-        if (current) {
-            updateContact(contact)
-            clearCurrent()
-        }
-        else {
-            addContact(contact);
-        }
-        setContact({
-            name: "",
-            email: "",
-            phone: "",
-            type: "personal"
-        })
     }
     const clearAll = () => {
         setContact({

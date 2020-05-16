@@ -9,7 +9,8 @@
     "server": "nodemon server.js",
     "client": "npm run start --prefix webclient",
     "clientinstall": "npm install --prefix webclient",
-    "dev": "concurrently \"npm run server \" \" npm run client\" "
+    "dev": "concurrently \"npm run server \" \" npm run client\" ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefixwebclient && npm run build --prefix webclient"
   },
   "keywords": [],
   "author": "",
@@ -28,5 +29,7 @@
   "devDependencies": {
     "concurrently": "^5.2.0",
     "nodemon": "^2.0.3"
-  }
+  },
+  "start_url": ".",
+  "homepage": "."
 }

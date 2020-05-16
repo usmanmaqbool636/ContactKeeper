@@ -43,9 +43,9 @@ const Register = props => {
             register({ email, name, password });
         }
     }
-    if(!isAuthenticated){
-        return null
-    }
+    // if(!isAuthenticated){
+    //     return null
+    // }
     return (
         <div className="form-container">
             <h1>
