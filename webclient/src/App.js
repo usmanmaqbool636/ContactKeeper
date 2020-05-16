@@ -11,6 +11,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alerts';
 import PrivateRoute from './components/routes/privateRoutes';
+require('dotenv').config()
 const App = () => {
   return (
     <AuthState>
