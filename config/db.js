@@ -7,7 +7,7 @@ const db = config.get('MongoURI')
 
 var DB;
 var text;
-if (process.env.NODE_ENV === "production ") {
+if (process.env.NODE_ENV === "production") {
     DB = db;
     text = "production"
 }
