@@ -47,5 +47,6 @@
   "devDependencies": {
     "gh-pages": "^2.2.0"
   },
+  "proxy":"http:localhost:5000/",
   "homepage": "https://usmanmaqbool636.github.io/"
 }

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
-import axios from '../../axios';
+import axios from 'axios';
 import {
     ADD_CONTACT,
     CLEAR_FILTER,
