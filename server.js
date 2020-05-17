@@ -22,7 +22,8 @@ app.get("/usman",(req,res)=>{
     })
 })
 app.get("/", (req, res) => {
-    return res.sendFile(path.join(__dirname, "webclient", "build", "index.html"))
+    res.send("working");
+    // return res.sendFile(path.join(__dirname, "webclient", "build", "index.html"))
 })
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
