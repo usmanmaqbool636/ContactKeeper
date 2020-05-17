@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
-const connectDB = require('./config/db');
+require('dotenv').config()
+const connectDB = require('./db');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path')
 const port = process.env.PORT || 5000;
-
 
 connectDB();
 app.use(express.static(path.join(__dirname, "webclient/build")));
