@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path')
 const port = process.env.PORT || 5000;
-app.use(express.static(path.join(__dirname, "webclient/build")));
 
 
 connectDB();
