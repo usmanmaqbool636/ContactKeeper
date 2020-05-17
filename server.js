@@ -16,7 +16,7 @@ app.use("/api/auth", (require('./routes/auth')))
 app.use("/api/contact", (require('./routes/contact')))
 
 app.use(express.static(path.join(__dirname, "webclient/build")));
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
     return res.sendFile(path.join(__dirname, "webclient", "build", "index.html"))
 })
 app.listen(port, () => {
