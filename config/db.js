@@ -7,14 +7,14 @@ const db = config.get('MongoURI')
 
 var DB;
 var text;
-if (process.env.NODE_ENV === "production") {
+// if (process.env.NODE_ENV === "production") {
     DB = db;
     text = "production"
-}
-else {
-    DB = devdb;
-    text = "development"
-}
+// }
+// else {
+//     DB = devdb;
+//     text = "development"
+// }
 
 const connectDB = async () => {
     try {
@@ -24,6 +24,7 @@ const connectDB = async () => {
             useFindAndModify:false,
             useCreateIndex:true
         })
+        console.log("connected to ",DB)
     }
     catch (e) {
         process.exit(1);
