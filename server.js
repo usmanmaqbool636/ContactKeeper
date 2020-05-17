@@ -17,7 +17,7 @@ app.use("/api/user", (require('./routes/users')))
 app.use("/api/auth", (require('./routes/auth')))
 app.use("/api/contact", (require('./routes/contact')))
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
     return res.sendFile(path.join(__dirname, "webclient", "build", "index.html"))
 })
 app.listen(port, () => {
