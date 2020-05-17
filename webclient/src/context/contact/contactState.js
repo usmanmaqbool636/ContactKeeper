@@ -26,11 +26,6 @@ const ContactState = (props) => {
     }
     const [state, dispatch] = useReducer(ContactReducer, initialState);
     const { token } = state;
-    const config = {
-        headers: {
-            "x-auth-token": token
-        }
-    }
 
     const addContact = async (contact, token) => {
         try {
