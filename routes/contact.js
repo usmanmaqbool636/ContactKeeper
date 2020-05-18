@@ -8,7 +8,7 @@ const { auth } = require('../middlewares/auth');
 router.use(auth);
 router.get('/', async (req, res) => {
     try {
-        let contact = await Contact.find({ user: req.user.id }).sort({ date: -1 })
+        let contact = await Contact.find({ user: req.user.id }).sort({ createdAt: -1 })
         return res.status(200).json(contact);
     }
     catch (err) {
@@ -20,15 +20,16 @@ router.get('/', async (req, res) => {
 router.post('/', [
     check("name", "name is required").not().isEmpty(),
     check("email", "please enter valid email").isEmail(),
+    check("phone", "please provide phone").not().isEmpty()
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json(errors);
     }
-    const { name, email, phone, type } = req.body;
+    const { name, email, phone, type, lastname } = req.body;
     try {
         const newContact = new Contact({
-            email, phone, type, name, user: req.user.id
+            email, phone, type, name, user: req.user.id, lastname
         })
         const contact = await newContact.save();
         return res.status(200).json(contact);

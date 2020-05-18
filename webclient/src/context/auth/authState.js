@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 import axios from 'axios';
@@ -9,11 +9,19 @@ import {
 const AuthState = (props) => {
     const initialState = {
         token: localStorage.getItem("jwttoken"),
-        isAuthenticated: false,
+        isAuthenticated: null,
         loading: true,
         error: null,
         user: null
     }
+    useEffect(() => {
+        console.log("loading User")
+        if (localStorage.jwttoken) {
+            loadUser(localStorage.jwttoken)
+        } else {
+            loadUser("")
+        }
+    }, [])
     const [state, dispatch] = useReducer(AuthReducer, initialState);
     const register = async (formData) => {
         try {
@@ -41,6 +49,7 @@ const AuthState = (props) => {
             const res = await axios.get("/api/auth", { headers: { "x-auth-token": token } })
             dispatch({ type: USER_LOAD, payload: res.data });
         } catch (err) {
+            console.log("user not load")
             dispatch({ type: AUTH_ERROR });
         }
     }

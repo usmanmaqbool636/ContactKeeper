@@ -1,14 +1,10 @@
 import React from 'react';
-import "./Spinner.css";
-const Spinner = () => {
+import { Dimmer, Loader } from 'semantic-ui-react';
+const Spinner = ({size}) => {
     return (
-        <div className="spinner">
-            <div className="rect1"></div>
-            <div className="rect2"></div>
-            <div className="rect3"></div>
-            <div className="rect4"></div>
-            <div className="rect5"></div>
-        </div>
+        <Dimmer active inverted>
+            <Loader size={size} />
+        </Dimmer>
     )
 }
 export default Spinner;

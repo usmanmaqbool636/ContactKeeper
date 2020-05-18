@@ -9,6 +9,9 @@ const ContactSchema = new Schema({
         type: String,
         required: true
     },
+    lastname: {
+        type: String
+    },
     email: {
         type: String,
         required: true
@@ -19,10 +22,9 @@ const ContactSchema = new Schema({
     },
     phone: {
         type: String,
-    },
-    date: {
-        type: String,
-        date: Date.now
-    },
-});
+    }
+}, {
+    timestamps: true
+}
+);
 module.exports = mongoose.model("contact", ContactSchema)

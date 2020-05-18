@@ -9,21 +9,29 @@ const Contact = () => {
     const contactContext = useContext(ContactContext);
     const { contacts, filtered, getAllContact } = contactContext;
     const [loading, setLoading] = useState(true)
+
+    const [activeIndex, setactiveIndex] = useState(-1)
     const filterContacts = filtered ? filtered : contacts
     const animTime = filtered ? 200 : 500;
-
+    const handleActiveClick = (id) => {
+        if (activeIndex === id) {
+            setactiveIndex(-1)
+        }
+        else {
+            setactiveIndex(id);
+        }
+    }
     useEffect(() => {
         setLoading(true);
-        if(localStorage.jwttoken){
-            console.log("working")
-            getAllContact(localStorage.jwttoken,() => {
+        if (localStorage.jwttoken) {
+            getAllContact(localStorage.jwttoken, () => {
                 setLoading(false)
             });
         }
         // eslint-disable-next-line
     }, [localStorage.jwttoken])
     if (loading) {
-        return <Spinner />
+        return <Spinner size="massive" />
     }
     else if (contacts.length === 0) {
         return <h4>Please Add Contact</h4>
@@ -31,14 +39,13 @@ const Contact = () => {
     else return (
         <>
             <TransitionGroup>
-                {filterContacts.map((contact) => {
+                {filterContacts.map((contact, id) => {
                     return (
                         <CSSTransition key={contact._id} timeout={animTime} classNames="item">
-                            <ContactItem contact={contact} />
+                            <ContactItem id={id} activeIndex={activeIndex} handleActiveClick={handleActiveClick} contact={contact} />
                         </CSSTransition>
                     )
                 })}
-                {/* {contacts.length} */}
             </TransitionGroup>
         </ >
     )

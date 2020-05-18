@@ -1,4 +1,5 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { Input } from 'semantic-ui-react'
 import ContactContext from '../../context/contact/contactContext';
 const ContactFilter = () => {
     const contactContext = useContext(ContactContext);
@@ -13,7 +14,7 @@ const ContactFilter = () => {
     }, [])
     const changHandler = (e) => {
         console.log(e.target.value)
-        if (text !== "") {
+        if (e.target.value !== "") {
             setText(e.target.value);
             filterContact(e.target.value)
         }
@@ -22,8 +23,10 @@ const ContactFilter = () => {
         }
     }
     return (
-        <form>
-            <input type="text" placeholder="Filter Contact" value={text} onChange={changHandler} />
+        <form style={{marginBottom:"1rem"}}>
+            <Input size="small" icon="search" fluid onChange={changHandler} iconPosition='left' placeholder='Search users...' 
+                style={{zIndex:"-1"}}
+            />
         </form>
     )
 }

@@ -7,7 +7,7 @@ const Home = (props) => {
     const authContext = useContext(AuthContext)
     const { isAuthenticated } = authContext;
     useEffect(() => {
-        if(isAuthenticated){
+        if (isAuthenticated) {
             props.history.push("/");
         }
         // eslint-disable-next-line
@@ -20,7 +20,6 @@ const Home = (props) => {
             <div>
                 <ContactFilter />
                 <Contact />
-
             </div>
         </div>
     )
