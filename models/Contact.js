@@ -22,7 +22,12 @@ const ContactSchema = new Schema({
     },
     phone: {
         type: String,
+    },
+    favourite: {
+        type: Boolean,
+        default: false
     }
+
 }, {
     timestamps: true
 }

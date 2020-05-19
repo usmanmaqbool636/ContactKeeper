@@ -7,6 +7,55 @@ const { check, validationResult } = require('express-validator');
 
 const { auth } = require('../middlewares/auth');
 
+router.post("/sociallogin", async (req, res) => {
+    try {
+
+        var user;
+        if (req.body.provider === "Facebook") {
+            user = await User.findOne({ facebookId: req.body.id });
+            if (user!==null) {
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                }
+                jwt.sign(payload, process.env.JWTSECRET, {
+                    expiresIn: 360000
+                }, (err, token) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        token
+                    })
+                })
+            }
+            else {
+                const { name, email, id, picture, provider } = req.body;
+                user = new User({ name, email, facebookId: id, provider, picture: picture.data.url })
+                await user.save()
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                }
+                jwt.sign(payload, process.env.JWTSECRET, {
+                    expiresIn: 360000
+                }, (err, token) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        token
+                    })
+                })
+            }
+        }
+
+
+
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).send("server error")
+    }
+})
 router.get('/', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select({ password: 0 });

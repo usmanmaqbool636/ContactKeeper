@@ -11,9 +11,10 @@ export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 export const CONTACT_ERR = "CONTACT_ERR";
 export const GET_ALL_CONTACT="GET_ALL_CONTACT";
-export const LOADING="LOADING";
-// Auth
+export const FAVOURITE="FAVOURITE";
 
+// Auth
+export const FACEBOOK_LOGIN="FACEBOOK_LOGIN";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const USER_LOAD = "USER_LOAD";

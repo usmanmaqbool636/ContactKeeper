@@ -8,7 +8,8 @@ import {
     UPDATE_CONTACT,
     CONTACT_ERR,
     GET_ALL_CONTACT,
-    CLEAR_CONTACTS
+    CLEAR_CONTACTS,
+    FAVOURITE
 } from '../types';
 
 
@@ -17,7 +18,7 @@ const contactReducer = (state, action) => {
         case ADD_CONTACT:
             return {
                 ...state,
-                contacts: [ action.payload,...state.contacts]
+                contacts: [action.payload, ...state.contacts]
             }
         case GET_ALL_CONTACT:
             return {
@@ -28,7 +29,7 @@ const contactReducer = (state, action) => {
         case DELETE_CONTACT:
             return {
                 ...state,
-                loading:false,
+                loading: false,
                 contacts: state.contacts.filter(c => c._id !== action.payload)
             }
         case SET_CURRENT:
@@ -63,13 +64,13 @@ const contactReducer = (state, action) => {
             return {
                 ...state,
                 filtered: null,
-                loading:false
+                loading: false
             }
         case CONTACT_ERR:
             return {
                 ...state,
                 error: action.payload,
-                loading:false
+                loading: false
             }
         case CLEAR_CONTACTS:
             return {
@@ -78,7 +79,15 @@ const contactReducer = (state, action) => {
                 current: null,
                 filtered: null,
                 error: null,
-                loading:false
+                loading: false
+            }
+        case FAVOURITE:
+            return {
+                ...state,
+                contacts: state.contacts.map(c => {
+                    if (c._id === action.payload) return { ...c, favourite:!c.favourite}
+                    return c;
+                })
             }
         default:
             return state;

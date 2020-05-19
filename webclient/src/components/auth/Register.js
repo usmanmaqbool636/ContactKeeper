@@ -3,7 +3,16 @@ import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 import { Segment, Grid, Button, Icon, Header, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { v4 } from "uuid";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
 const Register = props => {
+    //facebook start
+    // const [login, setLogin] = useState(false);
+    // const [data, setData] = useState({});
+    // const [picture, setPicture] = useState('');
+
+
     const [user, setuser] = useState({
         name: "",
         email: "",
@@ -13,7 +22,7 @@ const Register = props => {
     const alertContext = useContext(AlertContext);
     const authContext = useContext(AuthContext);
     const { setAlert } = alertContext;
-    const { register, error, clearError, isAuthenticated, loadUser } = authContext
+    const { register, error, clearError, isAuthenticated, loadUser, facebookLogin } = authContext
     const { name, email, password, password2 } = user;
     useEffect(() => {
         if (error) {
@@ -28,10 +37,21 @@ const Register = props => {
         }
         // eslint-disable-next-line
     }, [error, localStorage.jwttoken, isAuthenticated])
+
+    const responseFacebook = (response) => {
+        console.log(response);
+        if (response.accessToken) {
+
+            facebookLogin({ ...response, provider: "Facebook", email: response.email ? response.email :`${v4}@gmail.com` });
+        } else {
+            // setLogin(false);
+        }
+    }
+
     const changeHandler = e => setuser({ ...user, [e.target.name]: e.target.value })
     const submitHandler = e => {
         e.preventDefault();
-        if (!email || !name || !password || !password2) {
+        if (!email || !name  || !password || !password2) {
             setAlert("please fill all fields", "danger");
         }
         else if (password.length < 5) {
@@ -46,50 +66,59 @@ const Register = props => {
     }
     return (
         // <Segment>
-            <Grid columns={2} relaxed='very' stackable>
-                <Grid.Column>
-                    <div className="form-container">
-                        <h1>
-                            Account <span className="text-primary">Register </span>
-                        </h1>
-                        <form onSubmit={submitHandler}>
-                            <div className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <input type="text" name="name" value={name} onChange={changeHandler} />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="name">Email Address</label>
-                                <input type="email" name="email" value={email} onChange={changeHandler} />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="name">Password</label>
-                                <input type="password" name="password" value={password} onChange={changeHandler} />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="name">Confirm Password</label>
-                                <input type="password" name="password2" value={password2} onChange={changeHandler} />
-                            </div>
-                            <input type="submit" value="Register" className="btn btn-primary btn-block" />
-                        </form>
-                        <Segment textAlign="center">Already have an Account? go to <Link to="/login">Login</Link></Segment>
-                    </div>
-                </Grid.Column>
-                <Grid.Column className="socialMedia" verticalAlign='top' textAlign="center" style={{ marginTop: "3rem" }}>
-                    <Container>
-                        <Header as='h2'>Fourth Header</Header>
-                        <p>
-                            <Button fluid color='facebook'>
-                                <Icon name='facebook' /> Facebook
+        <Grid columns={2} relaxed='very' stackable>
+            <Grid.Column>
+                <div className="form-container">
+                    <h1>
+                        Account <span className="text-primary">Register </span>
+                    </h1>
+                    <form onSubmit={submitHandler}>
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input type="text" name="name" value={name} onChange={changeHandler} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="name">Email Address</label>
+                            <input type="email" name="email" value={email} onChange={changeHandler} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="name">Password</label>
+                            <input type="password" name="password" value={password} onChange={changeHandler} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="name">Confirm Password</label>
+                            <input type="password" name="password2" value={password2} onChange={changeHandler} />
+                        </div>
+                        <input type="submit" value="Register" className="btn btn-primary btn-block" />
+                    </form>
+                    <Segment textAlign="center">Already have an Account? go to <Link to="/login">Login</Link></Segment>
+                </div>
+            </Grid.Column>
+            <Grid.Column className="socialMedia" verticalAlign='top' textAlign="center" style={{ marginTop: "3rem" }}>
+                <Container>
+                    <Header as='h2'>Fourth Header</Header>
+                    <p>
+                        <FacebookLogin
+                            appId="1306016086260001"
+                            autoLoad={false}
+                            fields="name,email,picture"
+                            scope="public_profile,user_friends"
+                            callback={responseFacebook}
+                            render={(renderPprops) => (
+                                <Button {...renderPprops} fluid color='facebook'>
+                                    <Icon name='facebook' /> register using Facebook
+                                </Button>
+                            )} />
+
+                    </p>
+                    <p>
+                        <Button fluid color='google plus'>
+                            <Icon name='google ' /> Google
                     </Button>
-                        </p>
-                        <p>
-                            <Button fluid color='google plus'>
-                                <Icon name='google ' /> Google
-                    </Button>
-                        </p>
-                    </Container>
-                </Grid.Column>
-            </Grid>
+                    </p>
+                </Container>
+            </Grid.Column>
+        </Grid>
         // </Segment>
     )
 }

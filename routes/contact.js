@@ -6,6 +6,7 @@ const Contact = require('../models/Contact');
 const { check, validationResult } = require('express-validator');
 const { auth } = require('../middlewares/auth');
 router.use(auth);
+
 router.get('/', async (req, res) => {
     try {
         let contact = await Contact.find({ user: req.user.id }).sort({ createdAt: -1 })
@@ -59,6 +60,28 @@ router.delete('/:id', async (req, res) => {
         res.status(200).json({ msg: "contact deleted", id: req.params.id });
     }
     catch (err) {
+        res.status(500).json({
+            msg: "Internal server Error"
+        })
+    }
+})
+
+router.get("/favourite/:id", async (req, res) => {
+    try {
+        const contact = await Contact.findById(req.params.id);
+        if (contact) {
+            contact.favourite = !contact.favourite
+            await contact.save()
+            res.status(200).json({
+                msg: "contact favourite updated"
+            })
+        }
+        else{
+            res.status(404).json({
+                msg:"Contact Not Found"
+            })
+        }
+    } catch (err) {
         res.status(500).json({
             msg: "Internal server Error"
         })

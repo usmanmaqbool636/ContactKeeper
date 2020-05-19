@@ -1,8 +1,9 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS, CLEAR_ERRORS, USER_LOAD, AUTH_ERROR, LOGIN_SUCCESS, lOGIN_FAIL, LOGOUT } from '../types';
+import { REGISTER_FAIL, REGISTER_SUCCESS, CLEAR_ERRORS, USER_LOAD, AUTH_ERROR, LOGIN_SUCCESS, lOGIN_FAIL, LOGOUT, FACEBOOK_LOGIN } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
         case REGISTER_SUCCESS:
+        case FACEBOOK_LOGIN:
         case LOGIN_SUCCESS:
             localStorage.setItem("jwttoken", action.payload.token);
             return {

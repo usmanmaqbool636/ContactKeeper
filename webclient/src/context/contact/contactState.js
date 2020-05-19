@@ -12,7 +12,8 @@ import {
     CLEAR_CURRENT,
     CONTACT_ERR,
     GET_ALL_CONTACT,
-    CLEAR_CONTACTS
+    CLEAR_CONTACTS,
+    FAVOURITE
 } from '../types';
 
 const ContactState = (props) => {
@@ -69,7 +70,7 @@ const ContactState = (props) => {
 
         }
     }
-    const updateContact = async (contact, token,done) => {
+    const updateContact = async (contact, token, done) => {
         await axios.put("/api/contact", contact, {
             headers: {
                 "x-auth-token": token
@@ -84,6 +85,14 @@ const ContactState = (props) => {
     const filterContact = (text) => dispatch({ type: FILTER_CONTACT, payload: text });
     const clearFilter = () => dispatch({ type: CLEAR_FILTER });
     const clearContact = () => dispatch({ type: CLEAR_CONTACTS });
+    const favourite =async (id, token) => {
+        await axios.get(`/api/contact/favourite/${id}`, {
+            headers: {
+                "x-auth-token": token
+            }
+        })
+        dispatch({ type: FAVOURITE, payload: id })
+    }
 
     return (
         <ContactContext.Provider value={{
@@ -96,7 +105,8 @@ const ContactState = (props) => {
             filterContact,
             clearFilter,
             getAllContact,
-            clearContact
+            clearContact,
+            favourite
         }} >
             {props.children}
         </ContactContext.Provider>
