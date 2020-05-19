@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm run start --prefix webclient",
+    "client": "  npm run start --prefix webclient ",
     "clientinstall": "npm install --prefix webclient",
     "dev": "concurrently \"npm run server \" \" npm run client\" ",
-    "heroku-postbuild": "cd client && npm install — only=dev && npm install && npm run build"
+    "heroku-postbuild": " NPM_CONFIG_PRODUCTION=false cd webclient && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

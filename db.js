@@ -1,18 +1,12 @@
 const mongoose = require('mongoose');
-const config = require('config');
-
-const devdb = config.get('devMongoURI')
-const db = config.get('MongoURI')
-
-
 var DB;
 var text;
-if (process.env.NODE_ENV === "production") {
-    DB = db;
+if (process.env.NODE_ENVV === "prod") {
+    DB = process.env.PROD_MONGOURI;
     text = "production"
 }
 else {
-    DB = devdb;
+    DB = process.env.DEV_MONGOURI;
     text = "development"
 }
 
@@ -24,6 +18,8 @@ const connectDB = async () => {
             useFindAndModify:false,
             useCreateIndex:true
         })
+        console.log("connected to ",text)
+        console.log(process.env.NODE_ENVV)
     }
     catch (e) {
         process.exit(1);

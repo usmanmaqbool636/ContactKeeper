@@ -1,55 +1,71 @@
 import React, { useContext, useState } from 'react';
-import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons'
-import { faPhone } from '@fortawesome/free-solid-svg-icons'
+import { Button, Accordion, Icon, Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContactContext from '../../context/contact/contactContext';
-const ContactItem = ({ contact }) => {
+
+
+const ContactItem = ({ contact, id, activeIndex, handleActiveClick }) => {
     const [loading, setLoading] = useState(false);
     const contactContext = useContext(ContactContext);
-    const { name, _id, email, phone, type } = contact;
+    const { name, lastname, _id, email, phone, type } = contact;
     const { deleteContact, setCurrent, clearCurrent } = contactContext;
     const deleteHandler = () => {
         setLoading(true)
-        if(localStorage.jwttoken){
-
-            deleteContact(_id,localStorage.jwttoken ,() => {
+        if (localStorage.jwttoken) {
+            deleteContact(_id, localStorage.jwttoken, () => {
                 setLoading(false)
             });
             clearCurrent();
         }
     }
     return (
-        <div  className="card bg-light">
-            <h3 className="text-primary text-left">
-                {name} {" "}
+        <Accordion fluid styled style={{ backgroundColor: "#f4f4f4", marginBottom: "0.4rem" }}>
+            <Accordion.Title
+                style={{ color: "black" }}
+                active={activeIndex === id}
+                index={0}
+                onClick={() => handleActiveClick(id)}
+            >
+                <Icon name='dropdown' />
+                {name} {" "} {lastname}
+                
                 <span className={'badge ' + (type === "professional" ? "badge-success" : "badge-primary")}
-                    style={{ float: "right", textTransform: "capitalize" }}
+                    style={{ float: "right", textTransform: "capitalize", margin: "auto",marginTop:"-3px" }}
                 >
                     {type}
                 </span>
-            </h3>
-            <ul className="list">
-                <li>
-                    {email && <>
-                        <FontAwesomeIcon icon={faEnvelopeOpen} />{" "}{email}
-                    </>}
-                </li>
-                <li>
-                    {phone && <>
-                        <FontAwesomeIcon icon={faPhone} />{" "}{phone}
-                    </>}
-                </li>
-                <button className="btn btn-dark btn-sm" onClick={() => setCurrent(contact)}>Edit</button>
-                {loading ?
-                    <button disabled className="btn btn-danger btn-sm">Deleting...</button>
-                    :
-                    <button className="btn btn-danger btn-sm" onClick={deleteHandler}>Delete</button>
+            </Accordion.Title>
 
-                }
+            <Accordion.Content active={activeIndex === id}>
+                <p>
+                    <Icon name="mail" /> {email}
+                </p>
+                <p>
+                    <Icon name="phone" /> {phone}
+                </p>
+                <Container fluid textAlign="justified">
+                    <p>
+                        <Button
+                            color="black"
+                            size="mini"
+                            onClick={() => setCurrent(contact)}
+                            content="Edit"
+                            icon="edit"
+                            />
 
-            </ul>
-        </div >
+                        <Button
+                            disabled={loading}
+                            loading={loading}
+                            color="red"
+                            size="mini"
+                            onClick={deleteHandler}
+                            content="Delete"
+                            icon="user delete"
+                            />
+                    </p>
+                </Container>
+            </Accordion.Content>
+        </Accordion>
     )
 }
 ContactItem.propTypes = {

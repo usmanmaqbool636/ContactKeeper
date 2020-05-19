@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext';
 import AlertContext from '../../context/alert/alertContext';
+import { Form, Radio, Header } from 'semantic-ui-react';
 const ContactForm = () => {
     const contactContext = useContext(ContactContext);
     const alertContext = useContext(AlertContext);
+    const [loading, setLoading] = useState(false)
 
     const { addContact, current, updateContact, clearCurrent } = contactContext;
     const { setAlert } = alertContext;
@@ -11,9 +13,10 @@ const ContactForm = () => {
         name: "",
         email: "",
         phone: "",
-        type: "personal"
+        type: "personal",
+        lastname: ""
     });
-    const { email, name, phone } = contact;
+
     useEffect(() => {
         if (current) {
             setContact(current);
@@ -22,7 +25,9 @@ const ContactForm = () => {
                 name: "",
                 email: "",
                 phone: "",
-                type: "personal"
+                type: "personal",
+                lastname: ""
+
             })
         }
     }, [current])
@@ -35,26 +40,33 @@ const ContactForm = () => {
     const submitHabdler = (e) => {
         e.preventDefault();
         if (localStorage.jwttoken) {
-
             if (!name || !email || !phone) {
                 setAlert("please fill all fields", "danger")
                 return
             }
             if (current) {
-                if(localStorage.jwttoken){
-
-                    updateContact(contact,localStorage.jwttoken)
+                if (localStorage.jwttoken) {
+                    setLoading(true)
+                    updateContact(contact, localStorage.jwttoken, () => {
+                        setLoading(false)
+                    })
                     clearCurrent()
                 }
             }
             else {
-                addContact(contact,localStorage.jwttoken);
+                setLoading(true)
+
+                addContact(contact, localStorage.jwttoken, () => {
+                    setLoading(false)
+                });
             }
             setContact({
                 name: "",
                 email: "",
                 phone: "",
-                type: "personal"
+                type: "personal",
+                lastname: ""
+
             })
         }
     }
@@ -63,25 +75,46 @@ const ContactForm = () => {
             name: "",
             email: "",
             phone: "",
-            type: "personal"
+            type: "personal",
+            lastname: ""
+
         })
         clearCurrent()
     }
     const title = current !== null ? "Update Contact" : "Add Contact";
+    const radioChange = (e, { value }) => setContact({ ...contact, type: value })
+    const { email, name, phone, lastname, type } = contact;
     return (
-        <form onSubmit={submitHabdler}>
-            <h2 className="text-primary">{title}</h2>
-            <input type="text" placeholder="Name" name="name" value={name} onChange={changeHandler} />
-            <input type="email" placeholder="Email" name="email" value={email} onChange={changeHandler} />
-            <input type="text" placeholder="Phone" name="phone" value={phone} onChange={changeHandler} />
-            <h5>Contact Type</h5>
-            <input type="radio" name="type" value="personal" defaultChecked onChange={changeHandler} /> personal{" "}
-            <input type="radio" name="type" value="professional" onChange={changeHandler} /> Professional{" "}
-            <input type="submit" value={title} className="btn btn-primary" />
-            <button type="button" className="btn btn-light btn-block" onClick={clearAll}>
-                Clear
-            </button>
-        </form>
+        <Form onSubmit={submitHabdler} style={{ marginTop: "1rem" }}>
+            <Header as='h2' content='Uptime Guarantee' textAlign="center" />
+            <Form.Input width="15" value={name} label="First Name" placeholder="First Name" name="name" onChange={changeHandler} />
+            <Form.Input width="15" value={lastname} label="Last Name" placeholder="Last Name" name="lastname" onChange={changeHandler} />
+            <Form.Input width="15" value={email} type="email" label="Email" placeholder="Email" name="email" onChange={changeHandler} />
+            <Form.Input width="15" value={phone} label="Phone" placeholder="Phone" name="phone" onChange={changeHandler} />
+            <Form.Group inline>
+                <label>Type</label>
+                <Form.Field
+                    control={Radio}
+                    name="type"
+                    label='personal'
+                    value='personal'
+                    checked={type === 'personal'}
+                    onChange={radioChange}
+                />
+                <Form.Field
+                    control={Radio}
+                    name="type"
+                    label='professional'
+                    value='professional'
+                    checked={type === 'professional'}
+                    onChange={radioChange}
+                />
+            </Form.Group>
+            <Form.Group>
+                <Form.Button type="button" icon="cancel" content="Clear" onClick={clearAll} />
+                <Form.Button type="submit" icon="add" content={title} style={{ backgroundColor: "#003699", color: "#fff" }} disabled={loading} loading={loading} />
+            </Form.Group>
+        </Form>
     )
 }
 export default ContactForm

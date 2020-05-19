@@ -25,20 +25,16 @@ const ContactState = (props) => {
         token: localStorage.getItem("jwttoken")
     }
     const [state, dispatch] = useReducer(ContactReducer, initialState);
-    const { token } = state;
-    const config = {
-        headers: {
-            "x-auth-token": token
-        }
-    }
+    // const { token } = state;
 
-    const addContact = async (contact, token) => {
+    const addContact = async (contact, token, done) => {
         try {
             const res = await axios.post("/api/contact", contact, {
                 headers: {
                     "x-auth-token": token
                 }
             })
+            done()
             dispatch({ type: ADD_CONTACT, payload: res.data })
         }
         catch (err) {
@@ -60,9 +56,11 @@ const ContactState = (props) => {
     }
     const deleteContact = async (id, token, done) => {
         try {
-            await axios.delete(`/api/contact/${id}`, {headers:{
-                "x-auth-token":token
-            }});
+            await axios.delete(`/api/contact/${id}`, {
+                headers: {
+                    "x-auth-token": token
+                }
+            });
             dispatch({ type: DELETE_CONTACT, payload: id });
             done()
 
@@ -71,10 +69,13 @@ const ContactState = (props) => {
 
         }
     }
-    const updateContact = async (contact,token) => {
-        await axios.put("/api/contact", contact, {headers:{
-            "x-auth-token":token
-        }})
+    const updateContact = async (contact, token,done) => {
+        await axios.put("/api/contact", contact, {
+            headers: {
+                "x-auth-token": token
+            }
+        })
+        done()
         dispatch({ type: UPDATE_CONTACT, payload: contact });
 
     }

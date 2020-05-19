@@ -19,6 +19,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-transition-group": "^4.4.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "uuid": "^8.0.0"
   },
   "scripts": {
@@ -47,6 +49,6 @@
   "devDependencies": {
     "gh-pages": "^2.2.0"
   },
-  "proxy":"http:localhost:5000/",
+  "proxy": "http://localhost:5000/",
   "homepage": "https://usmanmaqbool636.github.io/"
 }

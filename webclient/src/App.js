@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/layout/Navbar';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import ContactState from './context/contact/contactState';
@@ -11,6 +11,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alerts';
 import PrivateRoute from './components/routes/privateRoutes';
+import 'semantic-ui-css/semantic.min.css'
 require('dotenv').config()
 const App = () => {
   return (
@@ -27,7 +28,6 @@ const App = () => {
                   <Route exact path="/about" component={About} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
-                  <Route exact path="/ContactKeeper" render={() => <Redirect to="/" />} />
                 </Switch>
               </div>
             </>
