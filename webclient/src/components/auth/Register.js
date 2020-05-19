@@ -99,7 +99,7 @@ const Register = props => {
                     <Header as='h2'>Fourth Header</Header>
                     <p>
                         <FacebookLogin
-                            appId="1306016086260001"
+                            appId={process.env.REACT_APP_FB}
                             autoLoad={false}
                             fields="name,email,picture"
                             scope="public_profile,user_friends"
