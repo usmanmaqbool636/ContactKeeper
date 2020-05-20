@@ -97,7 +97,7 @@ const Login = props => {
                     </p>
                     <p>
                         <GoogleLogin
-                            clientId="917472428465-ck660dr9h82uq2kailoo6ds74p8k3pb4.apps.googleusercontent.com"
+                            clientId={process.env.REACT_APP_GOOGLE}
                             render={renderProps => (
                                 <Button {...renderProps} fluid color='google plus'>
                                     <Icon name='google ' /> Login With Google

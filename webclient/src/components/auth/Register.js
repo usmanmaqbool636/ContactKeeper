@@ -5,6 +5,8 @@ import { Segment, Grid, Button, Icon, Header, Container } from 'semantic-ui-reac
 import { Link } from 'react-router-dom';
 import { v4 } from "uuid";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
+
 
 const Register = props => {
     //facebook start
@@ -22,7 +24,7 @@ const Register = props => {
     const alertContext = useContext(AlertContext);
     const authContext = useContext(AuthContext);
     const { setAlert } = alertContext;
-    const { register, error, clearError, isAuthenticated, loadUser, facebookLogin } = authContext
+    const { register, error, clearError, isAuthenticated, loadUser, facebookLogin, gooleLogin } = authContext
     const { name, email, password, password2 } = user;
     useEffect(() => {
         if (error) {
@@ -42,16 +44,20 @@ const Register = props => {
         console.log(response);
         if (response.accessToken) {
 
-            facebookLogin({ ...response, provider: "Facebook", email: response.email ? response.email :`${v4}@gmail.com` });
+            facebookLogin({ ...response, provider: "Facebook", email: response.email ? response.email : `${v4}@gmail.com` });
         } else {
             // setLogin(false);
         }
     }
+    const responseGoogle = (response) => {
 
+        gooleLogin({ ...response.profileObj, provider: "Google" });
+        console.log(response);
+    }
     const changeHandler = e => setuser({ ...user, [e.target.name]: e.target.value })
     const submitHandler = e => {
         e.preventDefault();
-        if (!email || !name  || !password || !password2) {
+        if (!email || !name || !password || !password2) {
             setAlert("please fill all fields", "danger");
         }
         else if (password.length < 5) {
@@ -112,9 +118,18 @@ const Register = props => {
 
                     </p>
                     <p>
-                        <Button fluid color='google plus'>
-                            <Icon name='google ' /> Google
-                    </Button>
+                        <GoogleLogin
+                            clientId={process.env.REACT_APP_GOOGLE}
+                            render={renderProps => (
+                                <Button {...renderProps} fluid color='google plus'>
+                                    <Icon name='google ' /> Register Using Google
+                                </Button>
+                            )}
+                            buttonText="Login"
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                        />
                     </p>
                 </Container>
             </Grid.Column>
