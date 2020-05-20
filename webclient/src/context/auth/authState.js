@@ -17,11 +17,12 @@ const AuthState = (props) => {
         user: null
     }
     useEffect(() => {
-        console.log("loading User")
         if (localStorage.jwttoken) {
+            console.log("loading User")
             loadUser(localStorage.jwttoken)
-        } else {
-            loadUser("")
+        }
+        else{
+            dispatch({ type: AUTH_ERROR });
         }
     }, [])
     const [state, dispatch] = useReducer(AuthReducer, initialState);

@@ -24,8 +24,8 @@ const ContactFilter = () => {
     }
     return (
         <form style={{marginBottom:"1rem"}}>
-            <Input size="small" icon="search" fluid onChange={changHandler} iconPosition='left' placeholder='Search users...' 
-                style={{zIndex:"-1"}}
+            <Input type="text" size="small" icon="search" fluid onChange={changHandler} iconPosition='left' placeholder='Search users...' 
+                style={{zIndex:"1"}}
             />
         </form>
     )

@@ -57,7 +57,7 @@ const contactReducer = (state, action) => {
                 ...state,
                 filtered: state.contacts.filter(c => {
                     const regex = new RegExp(`${action.payload}`, "gi");
-                    return c.name.match(regex) || c.email.match(regex);
+                    return c.name.match(regex) ||c.name.match(regex) || c.email.match(regex) ;
                 })
             }
         case CLEAR_FILTER:

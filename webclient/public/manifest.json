@@ -3,17 +3,17 @@
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "https://img.icons8.com/wired/64/000000/contact-card.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "https://img.icons8.com/wired/192/000000/contact-card.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "https://img.icons8.com/wired/512/000000/contact-card.png",
       "type": "image/png",
       "sizes": "512x512"
     }

@@ -86,7 +86,7 @@ const ContactForm = () => {
     const { email, name, phone, lastname, type } = contact;
     return (
         <Form onSubmit={submitHabdler} style={{ marginTop: "1rem" }}>
-            <Header as='h2' content='Uptime Guarantee' textAlign="center" />
+            <Header as='h2' content={title} textAlign="center" />
             <Form.Input width="15" value={name} label="First Name" placeholder="First Name" name="name" onChange={changeHandler} />
             <Form.Input width="15" value={lastname} label="Last Name" placeholder="Last Name" name="lastname" onChange={changeHandler} />
             <Form.Input width="15" value={email} type="email" label="Email" placeholder="Email" name="email" onChange={changeHandler} />

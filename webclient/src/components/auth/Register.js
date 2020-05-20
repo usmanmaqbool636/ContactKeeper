@@ -27,6 +27,7 @@ const Register = props => {
     const { register, error, clearError, isAuthenticated, loadUser, facebookLogin, gooleLogin } = authContext
     const { name, email, password, password2 } = user;
     useEffect(() => {
+        document.title ="KeepContact - Register";
         if (error) {
             setAlert(error, "danger");
             clearError();
@@ -71,73 +72,74 @@ const Register = props => {
             register({ email, name, password });
         }
     }
-    return (
-        // <Segment>
-        <Grid columns={2} relaxed='very' stackable>
-            <Grid.Column>
-                <div className="form-container">
-                    <h1>
-                        Account <span className="text-primary">Register </span>
-                    </h1>
-                    <form onSubmit={submitHandler}>
-                        <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input type="text" name="name" value={name} onChange={changeHandler} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="name">Email Address</label>
-                            <input type="email" name="email" value={email} onChange={changeHandler} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="name">Password</label>
-                            <input type="password" name="password" value={password} onChange={changeHandler} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="name">Confirm Password</label>
-                            <input type="password" name="password2" value={password2} onChange={changeHandler} />
-                        </div>
-                        <input type="submit" value="Register" className="btn btn-primary btn-block" />
-                    </form>
-                    <Segment textAlign="center">Already have an Account? go to <Link to="/login">Login</Link></Segment>
-                </div>
-            </Grid.Column>
-            <Grid.Column className="socialMedia" verticalAlign='top' textAlign="center" style={{ marginTop: "3rem" }}>
-                <Container>
-                    <Header as='h2'>Fourth Header</Header>
-                    <p>
-                        <FacebookLogin
-                            appId={process.env.REACT_APP_FB}
-                            autoLoad={false}
-                            fields="name,email,picture"
-                            scope="public_profile,user_friends"
-                            callback={responseFacebook}
-                            render={(renderPprops) => (
-                                <Button {...renderPprops} fluid color='facebook'>
-                                    <Icon name='facebook' /> register using Facebook
-                                </Button>
-                            )} />
+    return isAuthenticated === false ?
+        (
+            // <Segment>
+            <Grid columns={2} relaxed='very' stackable>
+                <Grid.Column>
+                    <div className="form-container">
+                        <h1>
+                            Account <span className="text-primary">Register </span>
+                        </h1>
+                        <form onSubmit={submitHandler}>
+                            <div className="form-group">
+                                <label htmlFor="name">Name</label>
+                                <input type="text" name="name" value={name} onChange={changeHandler} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="name">Email Address</label>
+                                <input type="email" name="email" value={email} onChange={changeHandler} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="name">Password</label>
+                                <input type="password" name="password" value={password} onChange={changeHandler} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="name">Confirm Password</label>
+                                <input type="password" name="password2" value={password2} onChange={changeHandler} />
+                            </div>
+                            <input type="submit" value="Register" className="btn btn-primary btn-block" />
+                        </form>
+                        <Segment textAlign="center">Already have an Account? go to <Link to="/login">Login</Link></Segment>
+                    </div>
+                </Grid.Column>
+                <Grid.Column className="socialMedia" verticalAlign='top' textAlign="center" style={{ marginTop: "3rem" }}>
+                    <Container>
+                        <Header as='h2'>OR with Social Media</Header>
+                        <p>
+                            <FacebookLogin
+                                appId={process.env.REACT_APP_FB}
+                                autoLoad={false}
+                                fields="name,email,picture"
+                                scope="public_profile,user_friends"
+                                callback={responseFacebook}
+                                render={(renderPprops) => (
+                                    <Button {...renderPprops} fluid color='facebook'>
+                                        <Icon name='facebook' /> register using Facebook
+                                    </Button>
+                                )} />
 
-                    </p>
-                    <p>
-                        <GoogleLogin
-                            clientId={process.env.REACT_APP_GOOGLE}
-                            render={renderProps => (
-                                <Button {...renderProps} fluid color='google plus'>
-                                    <Icon name='google ' /> Register Using Google
-                                </Button>
-                            )}
-                            buttonText="Login"
-                            onSuccess={responseGoogle}
-                            onFailure={() => { }}
+                        </p>
+                        <p>
+                            <GoogleLogin
+                                clientId={process.env.REACT_APP_GOOGLE}
+                                render={renderProps => (
+                                    <Button {...renderProps} fluid color='google plus'>
+                                        <Icon name='google ' /> Register Using Google
+                                    </Button>
+                                )}
+                                buttonText="Login"
+                                onSuccess={responseGoogle}
+                                onFailure={() => { }}
 
-                            cookiePolicy={'single_host_origin'}
-                        />
-                    </p>
-                </Container>
-            </Grid.Column>
-        </Grid>
-        // </Segment>
-    )
+                                cookiePolicy={'single_host_origin'}
+                            />
+                        </p>
+                    </Container>
+                </Grid.Column>
+            </Grid>
+            // </Segment>
+        ) : null
 }
 
 Register.propTypes = {
