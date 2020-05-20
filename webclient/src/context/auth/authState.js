@@ -5,7 +5,8 @@ import axios from 'axios';
 import {
     REGISTER_FAIL, REGISTER_SUCCESS,
     CLEAR_ERRORS, USER_LOAD, AUTH_ERROR, LOGIN_SUCCESS, lOGIN_FAIL, LOGOUT,
-    FACEBOOK_LOGIN
+    FACEBOOK_LOGIN,
+    GOOGLE_LOGIN
 } from '../types';
 const AuthState = (props) => {
     const initialState = {
@@ -39,7 +40,7 @@ const AuthState = (props) => {
             dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         }
         catch (err) {
-            dispatch({ type: lOGIN_FAIL, payload: err.response.data.msg })
+            dispatch({ type: lOGIN_FAIL, payload: err.response.data })
 
         }
     }
@@ -50,22 +51,28 @@ const AuthState = (props) => {
             const res = await axios.get("/api/auth", { headers: { "x-auth-token": token } })
             dispatch({ type: USER_LOAD, payload: res.data });
         } catch (err) {
-            console.log("user not load")
             dispatch({ type: AUTH_ERROR });
         }
     }
     const facebookLogin = async (user) => {
         try {
-            console.log(user.provider)
             const res = await axios.post("api/auth/sociallogin", user);
-            console.log("facebookLogin","working" )
+            console.log("facebookLogin", "working")
             dispatch({ type: FACEBOOK_LOGIN, payload: res.data })
-            console.log(res)
+        } catch (err) {
+            dispatch({ type: lOGIN_FAIL, payload: err.response.data })
+        }
+
+    }
+    const gooleLogin = async (user) => {
+        try {
+            const res = await axios.post("api/auth/sociallogin", user);
+            console.log("Google Login", "working")
+            dispatch({ type: GOOGLE_LOGIN, payload: res.data })
         } catch (err) {
             console.log(err.response.data);
             dispatch({ type: lOGIN_FAIL, payload: err.response.data })
         }
-
     }
     return (
         <AuthContext.Provider value={{
@@ -75,7 +82,8 @@ const AuthState = (props) => {
             loadUser,
             login,
             logout,
-            facebookLogin
+            facebookLogin,
+            gooleLogin
         }}>
             {props.children}
         </AuthContext.Provider>

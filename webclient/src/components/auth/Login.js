@@ -7,6 +7,7 @@ import { v4 } from "uuid";
 
 import { Segment, Grid, Button, Icon, Header, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
 const Login = props => {
 
     const alertContext = useContext(AlertContext);
@@ -16,7 +17,7 @@ const Login = props => {
         password: "",
     });
     const { setAlert } = alertContext;
-    const { login, error, clearError, isAuthenticated, loadUser, facebookLogin } = authContext
+    const { login, error, clearError, isAuthenticated, loadUser, facebookLogin,gooleLogin } = authContext
     useEffect(() => {
         if (error) {
             setAlert(error, "danger");
@@ -49,6 +50,11 @@ const Login = props => {
         else {
             login({ email, password })
         }
+    }
+    const responseGoogle = (response) => {
+
+        gooleLogin({...response.profileObj,provider:"Google"});
+        console.log(response);
     }
     return (
         // <Segment>
@@ -90,9 +96,18 @@ const Login = props => {
                             )} />
                     </p>
                     <p>
-                        <Button fluid color='google plus'>
-                            <Icon name='google ' /> Google
-                    </Button>
+                        <GoogleLogin
+                            clientId="917472428465-ck660dr9h82uq2kailoo6ds74p8k3pb4.apps.googleusercontent.com"
+                            render={renderProps => (
+                                <Button {...renderProps} fluid color='google plus'>
+                                    <Icon name='google ' /> Login With Google
+                                </Button>
+                            )}
+                            buttonText="Login"
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                        />
                     </p>
                 </Container>
             </Grid.Column>

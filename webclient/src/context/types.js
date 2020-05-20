@@ -14,6 +14,8 @@ export const GET_ALL_CONTACT="GET_ALL_CONTACT";
 export const FAVOURITE="FAVOURITE";
 
 // Auth
+export const GOOGLE_LOGIN="GOOGLE_LOGIN";
+
 export const FACEBOOK_LOGIN="FACEBOOK_LOGIN";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
