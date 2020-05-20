@@ -57,6 +57,7 @@ const Login = props => {
             gooleLogin({ ...response.profileObj, provider: "Google" });
         }
     }
+    console.log(process.env.REACT_APP_GOOGLE)
     return (
         // <Segment>
         <Grid columns={2} relaxed='very' stackable>
