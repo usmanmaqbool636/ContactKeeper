@@ -50,9 +50,10 @@ const Register = props => {
         }
     }
     const responseGoogle = (response) => {
-
-        gooleLogin({ ...response.profileObj, provider: "Google" });
-        console.log(response);
+        console.log(!response.error)
+        if (!response.error) {
+            gooleLogin({ ...response.profileObj, provider: "Google" });
+        }
     }
     const changeHandler = e => setuser({ ...user, [e.target.name]: e.target.value })
     const submitHandler = e => {
@@ -127,7 +128,8 @@ const Register = props => {
                             )}
                             buttonText="Login"
                             onSuccess={responseGoogle}
-                            onFailure={responseGoogle}
+                            onFailure={() => { }}
+
                             cookiePolicy={'single_host_origin'}
                         />
                     </p>

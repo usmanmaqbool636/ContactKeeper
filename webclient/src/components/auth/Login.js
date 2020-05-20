@@ -17,7 +17,7 @@ const Login = props => {
         password: "",
     });
     const { setAlert } = alertContext;
-    const { login, error, clearError, isAuthenticated, loadUser, facebookLogin,gooleLogin } = authContext
+    const { login, error, clearError, isAuthenticated, loadUser, facebookLogin, gooleLogin } = authContext
     useEffect(() => {
         if (error) {
             setAlert(error, "danger");
@@ -52,9 +52,10 @@ const Login = props => {
         }
     }
     const responseGoogle = (response) => {
-
-        gooleLogin({...response.profileObj,provider:"Google"});
-        console.log(response);
+        console.log(!response.error)
+        if (!response.error) {
+            gooleLogin({ ...response.profileObj, provider: "Google" });
+        }
     }
     return (
         // <Segment>
@@ -105,7 +106,7 @@ const Login = props => {
                             )}
                             buttonText="Login"
                             onSuccess={responseGoogle}
-                            onFailure={responseGoogle}
+                            onFailure={() => { }}
                             cookiePolicy={'single_host_origin'}
                         />
                     </p>
