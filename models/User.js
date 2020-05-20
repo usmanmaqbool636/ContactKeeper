@@ -7,16 +7,23 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: true,
         unique: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
-    date: {
+    provider: {
         type: String,
-        date: Date.now
+        default: "Email"
     },
+    facebookId: {
+        type: String
+    },
+    googleId: {
+        type: String
+    },
+    picture: {
+        type: String
+    }
 });
-module.exports= mongoose.model("user",UserSchema)
+module.exports = mongoose.model("user", UserSchema)

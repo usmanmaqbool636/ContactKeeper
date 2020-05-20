@@ -7,6 +7,100 @@ const { check, validationResult } = require('express-validator');
 
 const { auth } = require('../middlewares/auth');
 
+router.post("/sociallogin", async (req, res) => {
+    var user;
+    const Providers = ['Facebook', 'Google']
+    if (!Providers.includes(req.body.provider)) {
+        return res.status(400).send("Unknown Provider");
+    }
+
+    try {
+        if (req.body.provider === "Facebook") {
+            user = await User.findOne({ facebookId: req.body.id });
+            if (user !== null) {
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                }
+                jwt.sign(payload, process.env.JWTSECRET, {
+                    expiresIn: 360000
+                }, (err, token) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        token
+                    })
+                })
+            }
+            else {
+                const { name, email, id, picture, provider } = req.body;
+                user = await User.findOne({ email: email });
+                if (user) {
+                    return res.status(409).send("Email alredy Exits")
+                }
+                user = new User({ name, email, facebookId: id, provider })
+                await user.save()
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                }
+                jwt.sign(payload, process.env.JWTSECRET, {
+                    expiresIn: 360000
+                }, (err, token) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        token
+                    })
+                })
+            }
+        }
+        else {
+            user = await User.findOne({ googleId: req.body.googleId });
+            if (user !== null) {
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                }
+                jwt.sign(payload, process.env.JWTSECRET, {
+                    expiresIn: 360000
+                }, (err, token) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        token
+                    })
+                })
+            }
+            else {
+                const { name, email, googleId, imageUrl, provider } = req.body;
+                user = await User.findOne({ email: email });
+                if (user) {
+                    return res.status(409).send("Email alredy Exits")
+                }
+                user = new User({ name, email, googleId, provider, picture: imageUrl })
+                await user.save()
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                }
+                jwt.sign(payload, process.env.JWTSECRET, {
+                    expiresIn: 360000
+                }, (err, token) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        token
+                    })
+                })
+            }
+        }
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).send("server error")
+    }
+})
 router.get('/', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select({ password: 0 });

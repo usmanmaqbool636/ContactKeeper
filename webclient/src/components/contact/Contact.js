@@ -3,6 +3,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ContactContext from '../../context/contact/contactContext';
 import ContactItem from '../contact/ContactItem';
 import Spinner from '../layout/spinner/Spinner';
+import { Tab } from 'semantic-ui-react';
 import './Contact.css';
 
 const Contact = () => {
@@ -36,18 +37,38 @@ const Contact = () => {
     else if (contacts.length === 0) {
         return <h4>Please Add Contact</h4>
     }
-    else return (
-        <>
-            <TransitionGroup>
-                {filterContacts.map((contact, id) => {
-                    return (
-                        <CSSTransition key={contact._id} timeout={animTime} classNames="item">
-                            <ContactItem id={id} activeIndex={activeIndex} handleActiveClick={handleActiveClick} contact={contact} />
-                        </CSSTransition>
-                    )
-                })}
-            </TransitionGroup>
-        </ >
-    )
+    else {
+        const favourite = filterContacts.filter(c => c.favourite === true);
+        const panes = [
+            {
+                menuItem: 'All',
+                render: () => <TransitionGroup>
+                    {filterContacts.map((contact, id) => {
+                        return (
+                            <CSSTransition key={contact._id} timeout={animTime} classNames="item">
+                                <ContactItem id={id} activeIndex={activeIndex} handleActiveClick={handleActiveClick} contact={contact} />
+                            </CSSTransition>
+                        )
+                    })}
+                </TransitionGroup>,
+            },
+            {
+                menuItem: 'Favourite',
+                render: () => {
+                   return favourite.map((contact, id) => {
+                        return <ContactItem key={contact._id} id={id} activeIndex={activeIndex} handleActiveClick={handleActiveClick} contact={contact} />
+                    })
+                },
+            }
+        ]
+
+
+
+        return (
+            <>
+                <Tab menu={{ pointing: true }} panes={panes} />
+            </ >
+        )
+    }
 }
 export default Contact;

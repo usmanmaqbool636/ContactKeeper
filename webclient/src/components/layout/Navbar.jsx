@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Menu } from "semantic-ui-react";
+import { Dropdown, Menu, Image } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
@@ -46,7 +46,8 @@ const Navbar = ({ title, icon }) => {
                     active={activeItem === 'logout'}
                     onClick={handleItemClick}
                 >
-                    <Dropdown direction="left" icon="user" text={user && `${user.name}`}>
+                    <Image src={user && (user.picture ? `${user.picture}` : `https://ui-avatars.com/api/?name=${user && user.name}`)} avatar />
+                    <Dropdown direction="left" text={user && `${user.name}`}>
                         <Dropdown.Menu>
                             <Dropdown.Item icon="settings" text='Setting' />
                             <Dropdown.Item icon="log out" onClick={onLogout} text='Logout' />
@@ -86,7 +87,7 @@ const Navbar = ({ title, icon }) => {
     );
     return (
         <Menu color="grey" inverted secondary size="massive" style={{ padding: "0 1.5rem", backgroundColor: "#433a5f" }}  >
-            <Menu.Item header style={{color: "black"}}>
+            <Menu.Item header style={{ color: "black" }}>
                 <FontAwesomeIcon icon={faAddressCard} style={{ marginRight: "0.4rem" }} /> {title}
             </Menu.Item>
             {isAuthenticated ? authLink : guestLink}
