@@ -7,7 +7,7 @@ const { check, validationResult } = require('express-validator');
 
 const { auth } = require('../middlewares/auth');
 
-router.post("/sociallogin", async (req, res) => {
+router.post("/sociallogin", async(req, res) => {
     var user;
     const Providers = ['Facebook', 'Google']
     if (!Providers.includes(req.body.provider)) {
@@ -31,8 +31,7 @@ router.post("/sociallogin", async (req, res) => {
                         token
                     })
                 })
-            }
-            else {
+            } else {
                 const { name, email, id, picture, provider } = req.body;
                 user = await User.findOne({ email: email });
                 if (user) {
@@ -54,8 +53,7 @@ router.post("/sociallogin", async (req, res) => {
                     })
                 })
             }
-        }
-        else {
+        } else {
             user = await User.findOne({ googleId: req.body.googleId });
             if (user !== null) {
                 const payload = {
@@ -71,8 +69,7 @@ router.post("/sociallogin", async (req, res) => {
                         token
                     })
                 })
-            }
-            else {
+            } else {
                 const { name, email, googleId, imageUrl, provider } = req.body;
                 user = await User.findOne({ email: email });
                 if (user) {
@@ -95,18 +92,16 @@ router.post("/sociallogin", async (req, res) => {
                 })
             }
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err)
         return res.status(500).send("server error")
     }
 })
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async(req, res) => {
     try {
         const user = await User.findById(req.user.id).select({ password: 0 });
         return res.status(200).json(user);
-    }
-    catch (err) {
+    } catch (err) {
         return res.status(500).send("Server Error");
     }
 })
@@ -115,7 +110,7 @@ router.post('/', [
     check("email", "please enter valid email").isEmail(),
     // check('email').isEmail().withMessage("please enter valid email"),
     check("password", "password is required")
-], async (req, res) => {
+], async(req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json(errors.array())
@@ -143,8 +138,7 @@ router.post('/', [
                 token
             })
         })
-    }
-    catch (error) {
+    } catch (error) {
         res.status(500).send("Server Error")
     }
 })

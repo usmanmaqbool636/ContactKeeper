@@ -39,7 +39,7 @@ const ContactItem = ({ contact, id, activeIndex, handleActiveClick }) => {
                 {name} {" "} {lastname}
                 <Rating maxRating={1} rating={contact.favourite} icon='star' size='large' onRate={rateHandler} />
                 <span className={'badge ' + (type === "professional" ? "badge-success" : "badge-primary")}
-                    style={{ float: "right", textTransform: "capitalize", margin: "auto", marginTop: "-3px" }}
+                    style={{ float: "right", textTransform: "capitalize", margin: "auto" }}
                 >
                     {type}
                 </span>

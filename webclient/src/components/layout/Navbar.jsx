@@ -88,7 +88,9 @@ const Navbar = ({ title, icon }) => {
     return (
         <Menu color="grey" inverted secondary size="massive" style={{ padding: "0 1.5rem", backgroundColor: "#433a5f" }}  >
             <Menu.Item header style={{ color: "black" }}>
-                <FontAwesomeIcon icon={faAddressCard} style={{ marginRight: "0.4rem" }} /> {title}
+                <Link to="/" style={{color:"black"}}>
+                    <FontAwesomeIcon icon={faAddressCard} style={{ marginRight: "0.4rem" }} /> {title}
+                </Link>
             </Menu.Item>
             {isAuthenticated ? authLink : guestLink}
         </Menu>
